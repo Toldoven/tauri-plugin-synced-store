@@ -1,4 +1,4 @@
-use std::{borrow::Borrow, path::{Path}, sync::{Arc}};
+use std::{borrow::Borrow, sync::{Arc}};
 
 use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Manager};

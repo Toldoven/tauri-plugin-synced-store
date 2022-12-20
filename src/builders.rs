@@ -1,7 +1,7 @@
-use std::{marker::PhantomData, borrow::Borrow, path::{PathBuf, Path}};
+use std::{marker::PhantomData, path::{PathBuf, Path}};
 
 use serde::{Serialize, Deserialize};
-use tauri::{App, Manager, AppHandle};
+use tauri::{Manager, AppHandle};
 
 use crate::{synced_state::{SyncedState}, synced_state_toml::SyncedStateToml};
 
