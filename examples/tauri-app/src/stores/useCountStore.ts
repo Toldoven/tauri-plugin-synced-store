@@ -9,7 +9,7 @@ export const useCountStore = defineStore('count', () => {
 
     const init = async () => {
         count.value = await invoke<Count>('get_count')
-        listen<Count>('synced-state://count-update', (event: any) => count.value = event.payload )
+        listen<Count>('synced-state://count-update', (event) => count.value = event.payload )
     }
 
     return { count, init }
