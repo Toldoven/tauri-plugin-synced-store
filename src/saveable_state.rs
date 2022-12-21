@@ -8,14 +8,14 @@ use anyhow::Result;
 
 use crate::utils::create_dir_all_without_file_name::create_dir_all_without_file_name;
 
-pub struct SaveableStateToml<T>
+pub struct SaveableToml<T>
 where T: Default + Serialize + for<'a> Deserialize<'a>
 {
     pub path: PathBuf,
     pub state: T
 }
 
-impl<T> SaveableStateToml<T>
+impl<T> SaveableToml<T>
 where T: Default + Serialize + for<'a> Deserialize<'a>
 {
     pub fn new(

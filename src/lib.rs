@@ -9,12 +9,13 @@ use std::path::Path;
 
 use builders::{StateManage, StateInit, StateSave, StateTomlInit};
 use serde::{Serialize, Deserialize};
-use synced_state::SyncedState;
-use synced_state_toml::SyncedStateToml;
+pub use synced_state::Synced;
+pub use synced_state_toml::SyncedToml;
 use tauri::{plugin::{self, TauriPlugin}, RunEvent, Wry, State};
 
-pub type SyncState<'a, T> = State<'a, SyncedState<T>>;
-pub type SyncStateToml<'a, T> = State<'a, SyncedStateToml<T>>;
+pub type SyncState<'a, T> = State<'a, Synced<T>>;
+pub type SyncStateToml<'a, T> = State<'a, SyncedToml<T>>;
+
 
 pub struct PluginBuilder {
     states_manage: Vec<Box<dyn StateManage + Sync + Send>>,

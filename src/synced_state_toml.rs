@@ -3,14 +3,12 @@ use std::{borrow::Borrow, path::Path, sync::Arc};
 use serde::{Serialize, Deserialize};
 use tauri::{AppHandle, Manager};
 use tokio::sync::Mutex;
-
-use crate::{synced_state::SyncedState, saveable_state::SaveableStateToml};
-
-pub type SyncedStateToml<T> = SyncedState<SaveableStateToml<T>>;
-
 use anyhow::Result;
+use crate::{synced_state::Synced, saveable_state::SaveableToml};
 
-impl<T> SyncedState<SaveableStateToml<T>>
+pub type SyncedToml<T> = Synced<SaveableToml<T>>;
+
+impl<T> Synced<SaveableToml<T>>
 where T: Default + Serialize + for<'a> Deserialize<'a> + Clone
 {
     pub async fn init(
@@ -28,11 +26,11 @@ where T: Default + Serialize + for<'a> Deserialize<'a> + Clone
 
         path.push(relative_path);
 
-        let state = SaveableStateToml::<T>::load_path(&path)
+        let state = SaveableToml::<T>::load_path(&path)
             .await
             .unwrap_or_else(|error| {
                 eprintln!("Failed to initialize '{key}' state: {error}");
-                SaveableStateToml::<T>::new(&path)
+                SaveableToml::<T>::new(&path)
             });
 
         Self {

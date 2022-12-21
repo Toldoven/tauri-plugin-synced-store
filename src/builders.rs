@@ -3,7 +3,7 @@ use std::{marker::PhantomData, path::{PathBuf, Path}};
 use serde::{Serialize, Deserialize};
 use tauri::{Manager, AppHandle};
 
-use crate::{synced_state::{SyncedState}, synced_state_toml::SyncedStateToml};
+use crate::{synced_state::{Synced}, synced_state_toml::SyncedToml};
 
 use anyhow::Result;
 
@@ -37,7 +37,7 @@ impl<T> StateManage for StateInit<T>
 where T: Default + Serialize + for<'a> Deserialize<'a> + Clone + Sync + Send + 'static
 {
     fn manage(&self, handle: &AppHandle) {
-        let state = SyncedState::<T>::init_sync(&self.key, handle);
+        let state = Synced::<T>::init_sync(&self.key, handle);
         handle.manage(state);
     }
 }
@@ -71,7 +71,7 @@ impl<T> StateManage for StateTomlInit<T>
 where T: Default + Serialize + for<'a> Deserialize<'a> + Clone + Sync + Send + 'static
 {
     fn manage(&self, handle: &AppHandle) {
-        let state = SyncedStateToml::<T>::init_sync(
+        let state = SyncedToml::<T>::init_sync(
             &self.key,
             &self.path,
             handle
@@ -84,7 +84,7 @@ impl<T> StateSave for StateTomlInit<T>
 where T: Default + Serialize + for<'a> Deserialize<'a> + Clone + Sync + Send + 'static
 {
     fn save(&self, handle: &AppHandle) -> Result<()> {
-        let state = handle.state::<SyncedStateToml<T>>();
+        let state = handle.state::<SyncedToml<T>>();
         state.save_sync()
     }
 }

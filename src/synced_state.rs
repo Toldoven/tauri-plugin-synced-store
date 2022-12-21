@@ -4,13 +4,13 @@ use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Manager};
 use tokio::{sync::{Mutex}};
 
-pub struct SyncedState<T> {
+pub struct Synced<T> {
     pub(crate) key: String,
     pub(crate) state: Arc<Mutex<T>>,
     pub(crate) handle: AppHandle
 }
 
-impl<T> SyncedState<T>
+impl<T> Synced<T>
 where T: Default + Serialize + for<'a> Deserialize<'a> + Clone
 {
     pub async fn init(
