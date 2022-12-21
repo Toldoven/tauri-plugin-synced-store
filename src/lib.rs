@@ -1,13 +1,12 @@
 pub(crate) mod saveable_state;
-pub(crate) mod synced_state;
+pub mod synced_state;
 pub(crate) mod utils;
-pub mod builders;
-pub(crate) mod types;
-pub(crate) mod synced_state_toml;
+pub mod inits;
+pub mod synced_state_toml;
 
 use std::path::Path;
 
-use builders::{StateManage, StateInit, StateSave, StateTomlInit};
+use inits::{StateManage, StateInit, StateSave, StateTomlInit};
 use serde::{Serialize, Deserialize};
 pub use synced_state::Synced;
 pub use synced_state_toml::SyncedToml;
