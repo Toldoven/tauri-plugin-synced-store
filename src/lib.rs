@@ -1,7 +1,7 @@
 pub(crate) mod saveable_state;
 pub mod synced_state;
 pub(crate) mod utils;
-pub mod inits;
+pub(crate) mod inits;
 pub mod synced_state_toml;
 
 use std::path::Path;

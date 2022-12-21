@@ -1,6 +1,6 @@
 [package]
 name = "tauri-plugin-synced-state"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["KPidS"]
 edition = "2021"
 exclude = ["/examples", "/webview-dist", "/webview-src", "node_modules"]
