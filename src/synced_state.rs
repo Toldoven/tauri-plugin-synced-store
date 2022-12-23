@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Manager};
 use tokio::{sync::{Mutex, MutexGuard}};
 
+#[derive(Clone, Debug)]
 pub struct Synced<T> {
     pub(crate) key: String,
     pub(crate) state: Arc<Mutex<T>>,
@@ -53,7 +54,7 @@ where T: Default + Serialize + for<'a> Deserialize<'a> + Clone
 
     pub async fn mutate(
         &self,
-        mut function: impl FnMut(&mut T)
+        function: impl FnOnce(&mut T)
     ) {
         let mut state = self.state.lock().await;
 
@@ -75,5 +76,9 @@ where T: Default + Serialize + for<'a> Deserialize<'a> + Clone
 
     pub async fn lock(&self) -> MutexGuard<T> {
         self.state.lock().await
+    }
+
+    pub async fn reset(&self) {
+        self.set(T::default()).await;
     }
 }

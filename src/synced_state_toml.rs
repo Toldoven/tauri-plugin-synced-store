@@ -64,7 +64,7 @@ where T: Default + Serialize + for<'a> Deserialize<'a> + Clone
 
     pub async fn mutate(
         &self,
-        mut function: impl FnMut(&mut T)
+        function: impl FnOnce(&mut T)
     ) {
         let mut lock = self.state.lock().await;
         let state = &mut lock.state;
@@ -102,5 +102,9 @@ where T: Default + Serialize + for<'a> Deserialize<'a> + Clone
 
     pub async fn lock(&self) -> MutexGuard<SaveableToml<T>> {
         self.state.lock().await
+    }
+
+    pub async fn reset(&self) {
+        self.set(T::default()).await;
     }
 }
