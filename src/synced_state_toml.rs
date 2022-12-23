@@ -2,7 +2,7 @@ use std::{borrow::Borrow, path::Path, sync::Arc};
 
 use serde::{Serialize, Deserialize};
 use tauri::{AppHandle, Manager};
-use tokio::sync::Mutex;
+use tokio::sync::{Mutex, MutexGuard};
 use anyhow::Result;
 use crate::{synced_state::Synced, saveable_state::SaveableToml};
 
@@ -98,5 +98,9 @@ where T: Default + Serialize + for<'a> Deserialize<'a> + Clone
         self.mutate(|value| {
             *value = new_value.clone();
         }).await;
+    }
+
+    pub async fn lock(&self) -> MutexGuard<SaveableToml<T>> {
+        self.state.lock().await
     }
 }

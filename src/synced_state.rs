@@ -2,7 +2,7 @@ use std::{borrow::Borrow, sync::{Arc}};
 
 use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Manager};
-use tokio::{sync::{Mutex}};
+use tokio::{sync::{Mutex, MutexGuard}};
 
 pub struct Synced<T> {
     pub(crate) key: String,
@@ -71,5 +71,9 @@ where T: Default + Serialize + for<'a> Deserialize<'a> + Clone
         self.mutate(|value| {
             *value = new_value.clone();
         }).await;
+    }
+
+    pub async fn lock(&self) -> MutexGuard<T> {
+        self.state.lock().await
     }
 }
